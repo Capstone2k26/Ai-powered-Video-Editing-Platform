@@ -111,11 +111,6 @@ Whether you're a content creator, YouTuber, student, or video editor, VidioAI ai
 
 ---
 
-[Uploading image.png…]()
-
-
-![Uploading image.png…]()
-
 
 ## 👨‍💻 About Me
 
