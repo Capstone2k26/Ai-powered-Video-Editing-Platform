@@ -1,4 +1,4 @@
-# Ai-powered-Video-Editing-Platform
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/01c675a0-28ab-4ab0-8079-7e49d556d634" /># Ai-powered-Video-Editing-Platform
 # 🚀 VidioAI — AI-Powered Video Highlight & Shorts Generator
 
 ### 🎬 Turn Long Videos into Engaging Shorts with AI
@@ -110,6 +110,12 @@ Whether you're a content creator, YouTuber, student, or video editor, VidioAI ai
 6. **Download:** The user can download the generated videos.
 
 ---
+
+[Uploading image.png…]()
+
+
+![Uploading image.png…]()
+
 
 ## 👨‍💻 About Me
 
