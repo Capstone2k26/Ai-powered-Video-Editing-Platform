@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VidioAI — Intelligent Video Studio</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#070914;
+    color:#ffffff;
+    overflow-x:hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    background:#713cff;
+    filter:blur(180px);
+    opacity:.18;
+    top:-200px;
+    left:-150px;
+    z-index:-2;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    background:#00d9ff;
+    filter:blur(180px);
+    opacity:.12;
+    bottom:-200px;
+    right:-150px;
+    z-index:-2;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:75px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 7%;
+
+    background:rgba(7,9,20,.65);
+    backdrop-filter:blur(20px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    z-index:1000;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    background:linear-gradient(90deg,#7c5cff,#00d9ff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+}
+
+.nav-links a{
+    color:#aeb5cc;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#fff;
+}
+
+/* =========================
+   HERO
+========================= */
+
+section{
+    min-height:100vh;
+    padding:120px 8% 80px;
+}
+
+.hero{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    position:relative;
+}
+
+.hero-content{
+    max-width:950px;
+}
+
+.badge{
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:50px;
+
+    background:rgba(124,92,255,.12);
+    border:1px solid rgba(124,92,255,.35);
+
+    color:#b9adff;
+    font-size:13px;
+
+    margin-bottom:25px;
+}
+
+.hero h1{
+    font-size:clamp(50px,8vw,92px);
+    line-height:.98;
+    letter-spacing:-5px;
+    margin-bottom:30px;
+}
+
+.gradient-text{
+    background:linear-gradient(
+        90deg,
+        #8b6cff,
+        #4fdcff,
+        #a66cff
+    );
+
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    color:#9da5bf;
+    font-size:19px;
+    line-height:1.7;
+    max-width:700px;
+    margin:auto;
+}
+
+.hero-buttons{
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+}
+
+.btn{
+    padding:15px 27px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:14px;
+    transition:.3s;
+}
+
+.btn-primary{
+    color:white;
+    background:linear-gradient(
+        90deg,
+        #7657ff,
+        #00bfff
+    );
+
+    box-shadow:
+        0 0 35px rgba(92,91,255,.3);
+}
+
+.btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:
+        0 0 50px rgba(92,91,255,.5);
+}
+
+.btn-secondary{
+    color:white;
+    border:1px solid #303750;
+    background:#111525;
+}
+
+.btn-secondary:hover{
+    background:#181e32;
+}
+
+/* =========================
+   SECTION HEADER
+========================= */
+
+.section-header{
+    text-align:center;
+    max-width:750px;
+    margin:0 auto 70px;
+}
+
+.section-number{
+    color:#7e69ff;
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:3px;
+    margin-bottom:15px;
+}
+
+.section-header h2{
+    font-size:48px;
+    margin-bottom:20px;
+}
+
+.section-header p{
+    color:#8e97b1;
+    line-height:1.7;
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-grid{
+    max-width:1100px;
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:30px;
+}
+
+.about-card{
+    background:linear-gradient(
+        145deg,
+        rgba(26,31,57,.9),
+        rgba(12,15,29,.9)
+    );
+
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:25px;
+    padding:40px;
+
+    box-shadow:0 25px 80px rgba(0,0,0,.25);
+}
+
+.about-card h3{
+    font-size:25px;
+    margin-bottom:20px;
+}
+
+.about-card p{
+    color:#929bb4;
+    line-height:1.8;
+}
+
+.problem-list{
+    margin-top:25px;
+}
+
+.problem{
+    display:flex;
+    gap:15px;
+    align-items:center;
+    padding:15px 0;
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.problem-icon{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(124,92,255,.15);
+}
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.workflow{
+    max-width:1100px;
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.step{
+    position:relative;
+
+    padding:30px 20px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    background:#101426;
+
+    border:1px solid rgba(255,255,255,.07);
+
+    transition:.3s;
+}
+
+.step:hover{
+    transform:translateY(-8px);
+    border-color:#6254ff;
+    box-shadow:0 15px 40px rgba(81,68,255,.15);
+}
+
+.step-icon{
+    font-size:38px;
+    margin-bottom:20px;
+}
+
+.step h3{
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+.step p{
+    color:#7e879f;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.features{
+    max-width:1100px;
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.feature-card{
+    padding:30px;
+    border-radius:22px;
+
+    background:linear-gradient(
+        145deg,
+        rgba(21,27,49,.9),
+        rgba(10,13,26,.9)
+    );
+
+    border:1px solid rgba(255,255,255,.07);
+
+    transition:.35s;
+}
+
+.feature-card:hover{
+    transform:translateY(-7px);
+    border-color:#6858ff;
+}
+
+.feature-icon{
+    width:55px;
+    height:55px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:15px;
+
+    font-size:25px;
+
+    background:linear-gradient(
+        135deg,
+        rgba(124,92,255,.25),
+        rgba(0,217,255,.12)
+    );
+
+    margin-bottom:20px;
+}
+
+.feature-card h3{
+    margin-bottom:12px;
+}
+
+.feature-card p{
+    color:#828ca6;
+    font-size:14px;
+    line-height:1.7;
+}
+
+/* =========================
+   EDITOR
+========================= */
+
+.editor-section{
+    min-height:100vh;
+}
+
+.editor{
+    max-width:1100px;
+    margin:auto;
+
+    padding:35px;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(23,28,52,.98),
+            rgba(9,12,25,.98)
+        );
+
+    border:1px solid rgba(255,255,255,.1);
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.4);
+}
+
+.editor-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:30px;
+}
+
+.editor-title h3{
+    font-size:24px;
+}
+
+.editor-title p{
+    color:#77819b;
+    font-size:13px;
+    margin-top:7px;
+}
+
+.ai-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    color:#6ee7a1;
+    font-size:12px;
+}
+
+.ai-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#47e58b;
+    box-shadow:0 0 12px #47e58b;
+}
+
+/* UPLOAD */
+
+.upload-area{
+    min-height:330px;
+
+    border:2px dashed #394361;
+
+    border-radius:22px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.upload-area:hover{
+    border-color:#7664ff;
+    background:rgba(118,100,255,.04);
+}
+
+.upload-icon{
+    font-size:55px;
+    margin-bottom:20px;
+}
+
+.upload-area h3{
+    margin-bottom:10px;
+}
+
+.upload-area p{
+    color:#7d87a1;
+    font-size:14px;
+}
+
+#videoInput{
+    display:none;
+}
+
+/* PREVIEW */
+
+#preview{
+    display:none;
+    margin-top:25px;
+}
+
+#preview video{
+    width:100%;
+    max-height:450px;
+    border-radius:18px;
+    background:#000;
+}
+
+/* SETTINGS */
+
+.settings{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+
+    margin-top:25px;
+}
+
+.setting label{
+    display:block;
+    color:#9ca5bc;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+.setting select{
+    width:100%;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    background:#0a0e1d;
+    color:white;
+
+    border:1px solid #303953;
+}
+
+/* GENERATE */
+
+.generate{
+    width:100%;
+
+    margin-top:25px;
+
+    padding:17px;
+
+    border:0;
+    border-radius:12px;
+
+    color:white;
+
+    font-weight:bold;
+    font-size:15px;
+
+    cursor:pointer;
+
+    background:linear-gradient(
+        90deg,
+        #7155ff,
+        #00bce9
+    );
+
+    transition:.3s;
+}
+
+.generate:hover{
+    transform:translateY(-2px);
+    box-shadow:0 15px 35px rgba(72,91,255,.25);
+}
+
+/* PROCESSING */
+
+#processing{
+    display:none;
+    margin-top:25px;
+}
+
+.progress-background{
+    height:10px;
+    background:#252b40;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress{
+    width:0%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        #7355ff,
+        #00d9ff
+    );
+
+    transition:.3s;
+}
+
+.progress-text{
+    display:flex;
+    justify-content:space-between;
+
+    margin-top:10px;
+
+    color:#7d87a2;
+    font-size:13px;
+}
+
+/* RESULTS */
+
+#results{
+    display:none;
+    margin-top:30px;
+}
+
+.results-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.result{
+    background:#0a0f20;
+    padding:12px;
+    border-radius:16px;
+}
+
+.result video{
+    width:100%;
+    aspect-ratio:9/16;
+    object-fit:cover;
+    background:#000;
+    border-radius:10px;
+}
+
+.result h4{
+    margin-top:12px;
+}
+
+.download{
+    display:block;
+    margin-top:10px;
+    padding:10px;
+    text-align:center;
+    border-radius:8px;
+
+    background:#28335a;
+
+    color:white;
+    text-decoration:none;
+
+    font-size:13px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    text-align:center;
+    padding:50px 20px;
+
+    border-top:1px solid rgba(255,255,255,.07);
+
+    color:#68718b;
+    font-size:13px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:850px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .about-grid{
+        grid-template-columns:1fr;
+    }
+
+    .workflow{
+        grid-template-columns:1fr;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .settings{
+        grid-template-columns:1fr;
+    }
+
+    .results-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        Vidio<span>AI</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#home">Home</a>
+
+        <a href="#about">About</a>
+
+        <a href="#how">How It Works</a>
+
+        <a href="#features">Features</a>
+
+        <a href="#editor">AI Editor</a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            ✦ AI POWERED VIDEO TECHNOLOGY
+        </div>
+
+        <h1>
+
+            Turn Long Videos Into
+
+            <span class="gradient-text">
+                Amazing Shorts.
+            </span>
+
+        </h1>
+
+        <p>
+
+            VidioAI analyzes your videos, discovers
+            the most interesting moments and prepares
+            them for short-form content — automatically.
+
+        </p>
+
+        <div class="hero-buttons">
+
+            <a
+                href="#editor"
+                class="btn btn-primary"
+            >
+                🚀 Try AI Editor
+            </a>
+
+            <a
+                href="#how"
+                class="btn btn-secondary"
+            >
+                Explore Project
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section id="about">
+
+    <div class="section-header">
+
+        <div class="section-number">
+            01 — ABOUT THE PROJECT
+        </div>
+
+        <h2>
+            Editing shouldn't take hours.
+        </h2>
+
+        <p>
+
+            Our project aims to reduce the repetitive
+            work involved in turning long-form videos
+            into engaging short-form content.
+
+        </p>
+
+    </div>
+
+
+    <div class="about-grid">
+
+        <div class="about-card">
+
+            <h3>
+                🎬 What are we building?
+            </h3>
+
+            <p>
+
+                VidioAI is an AI-assisted video editing
+                platform designed to analyze a long video,
+                identify valuable moments and prepare
+                short-form content automatically.
+
+            </p>
+
+            <div class="problem-list">
+
+                <div class="problem">
+
+                    <div class="problem-icon">
+                        ⏱️
+                    </div>
+
+                    <span>
+                        Manual editing takes too much time.
+                    </span>
+
+                </div>
+
+                <div class="problem">
+
+                    <div class="problem-icon">
+                        🔍
+                    </div>
+
+                    <span>
+                        Finding the best moments is difficult.
+                    </span>
+
+                </div>
+
+                <div class="problem">
+
+                    <div class="problem-icon">
+                        📝
+                    </div>
+
+                    <span>
+                        Captions and formatting require extra work.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="about-card">
+
+            <h3>
+                💡 Our Goal
+            </h3>
+
+            <p>
+
+                Create a simple system where a user can
+                upload a video and let intelligent algorithms
+                assist with the repetitive parts of editing.
+
+            </p>
+
+            <br>
+
+            <p>
+
+                The project combines web development,
+                artificial intelligence and multimedia
+                processing into one platform.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     HOW IT WORKS
+========================= -->
+
+<section id="how">
+
+    <div class="section-header">
+
+        <div class="section-number">
+            02 — HOW IT WORKS
+        </div>
+
+        <h2>
+            From video to short.
+        </h2>
+
+        <p>
+
+            Our planned workflow combines multiple
+            technologies to automate the editing process.
+
+        </p>
+
+    </div>
+
+
+    <div class="workflow">
+
+        <div class="step">
+
+            <div class="step-icon">
+                📤
+            </div>
+
+            <h3>
+                Upload
+            </h3>
+
+            <p>
+                User uploads a video.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-icon">
+                🧠
+            </div>
+
+            <h3>
+                Analyze
+            </h3>
+
+            <p>
+                AI analyzes speech and video.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-icon">
+                🎯
+            </div>
+
+            <h3>
+                Detect
+            </h3>
+
+            <p>
+                Important moments are identified.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-icon">
+                ✂️
+            </div>
+
+            <h3>
+                Edit
+            </h3>
+
+            <p>
+                Selected moments become short clips.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-icon">
+                📱
+            </div>
+
+            <h3>
+                Export
+            </h3>
+
+            <p>
+                Short-form video is generated.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section id="features">
+
+    <div class="section-header">
+
+        <div class="section-number">
+            03 — AI FEATURES
+        </div>
+
+        <h2>
+            Built for intelligent editing.
+        </h2>
+
+        <p>
+
+            These are the core capabilities planned
+            for our AI video editing system.
+
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🧠
+            </div>
+
+            <h3>
+                Smart Highlights
+            </h3>
+
+            <p>
+                Analyze speech and visual information
+                to identify potentially interesting
+                moments.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📝
+            </div>
+
+            <h3>
+                Auto Captions
+            </h3>
+
+            <p>
+                Convert speech into subtitles and
+                prepare captions for short-form content.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ✂️
+            </div>
+
+            <h3>
+                Smart Cutting
+            </h3>
+
+            <p>
+                Automatically create clips around
+                selected highlights.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📱
+            </div>
+
+            <h3>
+                Vertical Conversion
+            </h3>
+
+            <p>
+                Prepare videos for modern vertical
+                platforms such as Shorts and Reels.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🎨
+            </div>
+
+            <h3>
+                Editing Styles
+            </h3>
+
+            <p>
+                Different presets can be used for
+                cinematic, social and fast-paced content.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ⚡
+            </div>
+
+            <h3>
+                Automated Workflow
+            </h3>
+
+            <p>
+                Combine multiple processing steps
+                into a single simple workflow.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     AI EDITOR
+========================= -->
+
+<section
+    class="editor-section"
+    id="editor"
+>
+
+    <div class="section-header">
+
+        <div class="section-number">
+            04 — AI VIDEO EDITOR
+        </div>
+
+        <h2>
+            Your editing workspace.
+        </h2>
+
+        <p>
+
+            Upload a video and prepare it for
+            AI-assisted editing.
+
+        </p>
+
+    </div>
+
+
+    <div class="editor">
+
+        <div class="editor-top">
+
+            <div class="editor-title">
+
+                <h3>
+                    🎬 AI Video Studio
+                </h3>
+
+                <p>
+                    Intelligent editing workspace
+                </p>
+
+            </div>
+
+            <div class="ai-status">
+
+                <div class="ai-dot"></div>
+
+                AI SYSTEM READY
+
+            </div>
+
+        </div>
+
+
+        <!-- UPLOAD -->
+
+        <label
+            class="upload-area"
+            for="videoInput"
+        >
+
+            <div>
+
+                <div class="upload-icon">
+                    📤
+                </div>
+
+                <h3>
+                    Drop your video here
+                </h3>
+
+                <p>
+                    or click to browse from your computer
+                </p>
+
+                <p
+                    id="fileName"
+                    style="margin-top:15px;"
+                >
+                    No video selected
+                </p>
+
+            </div>
+
+        </label>
+
+        <input
+            type="file"
+            id="videoInput"
+            accept="video/*"
+        >
+
+
+        <!-- PREVIEW -->
+
+        <div id="preview">
+
+            <h3>
+                Video Preview
+            </h3>
+
+            <br>
+
+            <video
+                id="videoPlayer"
+                controls
+            ></video>
+
+        </div>
+
+
+        <!-- SETTINGS -->
+
+        <div class="settings">
+
+            <div class="setting">
+
+                <label>
+                    Editing Style
+                </label>
+
+                <select id="style">
+
+                    <option>
+                        Smart AI
+                    </option>
+
+                    <option>
+                        Cinematic
+                    </option>
+
+                    <option>
+                        Fast & Dynamic
+                    </option>
+
+                    <option>
+                        Minimal
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="setting">
+
+                <label>
+                    Platform
+                </label>
+
+                <select>
+
+                    <option>
+                        YouTube Shorts
+                    </option>
+
+                    <option>
+                        Instagram Reels
+                    </option>
+
+                    <option>
+                        TikTok
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="setting">
+
+                <label>
+                    Number of Clips
+                </label>
+
+                <select id="clipCount">
+
+                    <option value="1">
+                        1 Short
+                    </option>
+
+                    <option
+                        value="3"
+                        selected
+                    >
+                        3 Shorts
+                    </option>
+
+                    <option value="5">
+                        5 Shorts
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- GENERATE -->
+
+        <button
+            class="generate"
+            id="generateBtn"
+            onclick="generateAI()"
+        >
+
+            ✨ Generate Shorts With AI
+
+        </button>
+
+
+        <!-- PROCESSING -->
+
+        <div id="processing">
+
+            <h3>
+                🤖 AI Processing
+            </h3>
+
+            <br>
+
+            <div class="progress-background">
+
+                <div
+                    class="progress"
+                    id="progress"
+                ></div>
+
+            </div>
+
+            <div class="progress-text">
+
+                <span id="status">
+                    Preparing AI...
+                </span>
+
+                <span id="percent">
+                    0%
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div id="results">
+
+            <h3>
+                ✨ Generated Shorts
+            </h3>
+
+            <div
+                class="results-grid"
+                id="resultsGrid"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <strong>VidioAI</strong>
+
+    <br><br>
+
+    AI-Assisted Automatic Video Editing Project
+
+    <br><br>
+
+    © 2026 VidioAI — Academic Project Prototype
+
+</footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+const input =
+document.getElementById("videoInput");
+
+const fileName =
+document.getElementById("fileName");
+
+const preview =
+document.getElementById("preview");
+
+const videoPlayer =
+document.getElementById("videoPlayer");
+
+
+/* VIDEO SELECTION */
+
+input.addEventListener(
+    "change",
+    function(){
+
+        const file =
+        this.files[0];
+
+        if(!file)
+        return;
+
+        fileName.innerHTML =
+        "Selected: <strong>"
+        + file.name
+        + "</strong>";
+
+        const url =
+        URL.createObjectURL(file);
+
+        videoPlayer.src =
+        url;
+
+        preview.style.display =
+        "block";
+
+    }
+);
+
+
+/* AI DEMO */
+
+async function generateAI() {
+
+    try {
+
+        // Check video
+        if (!input.files.length) {
+            alert("Please upload a video first.");
+            return;
+        }
+
+        const file = input.files[0];
+
+        // Create form data
+        const formData = new FormData();
+        formData.append("video", file);
+
+        // -----------------------------------------
+        // GET NUMBER OF SHORTS FROM DROPDOWN
+        // -----------------------------------------
+
+       // -----------------------------------------
+// GET NUMBER OF SHORTS FROM CLIPS DROPDOWN
+// -----------------------------------------
+
+const allSelects =
+    document.querySelectorAll("select");
+
+let clipsSelect = null;
+
+// Find the dropdown whose options are like:
+// "3 Shorts", "5 Shorts", etc.
+for (const select of allSelects) {
+
+    const hasClipOption =
+        Array.from(select.options).some(option =>
+            /^\s*\d+\s+Shorts?\s*$/i.test(
+                option.textContent.trim()
+            )
+        );
+
+    if (hasClipOption) {
+        clipsSelect = select;
+        break;
+    }
+}
+
+let selectedClips = 3;
+
+if (clipsSelect) {
+
+    const selectedOption =
+        clipsSelect.options[
+            clipsSelect.selectedIndex
+        ];
+
+    const numberMatch =
+        selectedOption.textContent.match(/\d+/);
+
+    if (numberMatch) {
+        selectedClips =
+            parseInt(numberMatch[0]);
+    }
+}
+
+console.log(
+    "🔥 USER SELECTED:",
+    selectedClips,
+    "SHORTS"
+);
+
+formData.append(
+    "clips",
+    selectedClips
+);
+        // Keep number between 1 and 10
+        selectedClips = Math.max(
+            1,
+            Math.min(selectedClips, 10)
+        );
+
+        // Send selected number to Python
+        formData.append(
+            "clips",
+            selectedClips
+        );
+
+        console.log(
+            "Selected Shorts:",
+            selectedClips
+        );
+
+        alert(
+            "🤖 VidioAI is creating " +
+            selectedClips +
+            " Shorts..."
+        );
+
+        // -----------------------------------------
+        // SEND VIDEO TO FLASK
+        // -----------------------------------------
+
+        const response = await fetch(
+            "http://127.0.0.1:5000/upload",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        const data = await response.json();
+
+        // Check backend response
+        if (!data.success) {
+
+            throw new Error(
+                data.message ||
+                "Video processing failed."
+            );
+        }
+
+        console.log(
+            "Backend response:",
+            data
+        );
+
+        // -----------------------------------------
+        // CREATE RESULT BOX
+        // -----------------------------------------
+
+        const resultBox =
+            document.createElement("div");
+
+        resultBox.style.marginTop = "30px";
+        resultBox.style.padding = "25px";
+        resultBox.style.borderRadius = "20px";
+        resultBox.style.background =
+            "rgba(20,20,40,0.95)";
+        resultBox.style.border =
+            "1px solid rgba(100,150,255,0.4)";
+
+        resultBox.innerHTML = `
+            <h2 style="
+                color:white;
+                margin-bottom:10px;
+            ">
+                🎉 Your Shorts Are Ready!
+            </h2>
+
+            <p style="
+                color:#aaa;
+                margin-bottom:25px;
+            ">
+                VidioAI generated
+                ${data.number_of_clips}
+                Shorts.
+            </p>
+        `;
+
+        // -----------------------------------------
+        // DISPLAY ALL GENERATED SHORTS
+        // -----------------------------------------
+
+        data.clips.forEach((clip) => {
+
+            const clipBox =
+                document.createElement("div");
+
+            clipBox.style.marginBottom =
+                "30px";
+
+            clipBox.style.padding =
+                "20px";
+
+            clipBox.style.borderRadius =
+                "15px";
+
+            clipBox.style.background =
+                "rgba(255,255,255,0.05)";
+
+            clipBox.innerHTML = `
+                <h3 style="color:white;">
+                    🎬 Short ${clip.clip_number}
+                </h3>
+
+                <video
+                    controls
+                    style="
+                        width:100%;
+                        max-width:500px;
+                        border-radius:15px;
+                        display:block;
+                        margin:15px auto;
+                    "
+                >
+                    <source
+                        src="http://127.0.0.1:5000${clip.url}"
+                        type="video/mp4"
+                    >
+                </video>
+
+                <a
+                    href="http://127.0.0.1:5000${clip.url}"
+                    download
+                    style="
+                        display:inline-block;
+                        padding:12px 22px;
+                        border-radius:10px;
+                        background:
+                            linear-gradient(
+                                90deg,
+                                #5b2cff,
+                                #00c6ff
+                            );
+                        color:white;
+                        text-decoration:none;
+                        font-weight:bold;
+                    "
+                >
+                    ⬇️ Download Short
+                    ${clip.clip_number}
+                </a>
+            `;
+
+            resultBox.appendChild(
+                clipBox
+            );
+        });
+
+        // -----------------------------------------
+        // ADD RESULTS TO PAGE
+        // -----------------------------------------
+
+        const generateButton =
+            document.getElementById(
+                "generateBtn"
+            );
+
+        if (
+            generateButton &&
+            generateButton.parentElement
+        ) {
+
+            generateButton.parentElement
+                .appendChild(resultBox);
+
+        } else {
+
+            document.body.appendChild(
+                resultBox
+            );
+        }
+
+        alert(
+            "🎉 " +
+            data.number_of_clips +
+            " Shorts generated successfully!"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "VidioAI Error:",
+            error
+        );
+
+        alert(
+            "❌ Something went wrong:\n" +
+            error.message
+        );
+    }
+}
+
+
+
+/* DEMO RESULTS */
+
+function showResults(){
+
+    const results =
+    document.getElementById(
+        "results"
+    );
+
+    const grid =
+    document.getElementById(
+        "resultsGrid"
+    );
+
+    const url =
+    URL.createObjectURL(
+        input.files[0]
+    );
+
+
+    const count =
+    parseInt(
+        document.getElementById(
+            "clipCount"
+        ).value
+    );
+
+
+    grid.innerHTML = "";
+
+
+    for(
+        let i=1;
+        i<=count;
+        i++
+    ){
+
+        const card =
+        document.createElement(
+            "div"
+        );
+
+        card.className =
+        "result";
+
+
+        card.innerHTML = `
+
+            <video
+                controls
+                src="${url}">
+            </video>
+
+            <h4>
+                AI Short ${i}
+            </h4>
+
+            <a
+                class="download"
+                href="${url}"
+                download="VidioAI-Short-${i}.mp4"
+            >
+                ⬇ Download
+            </a>
+
+        `;
+
+
+        grid.appendChild(card);
+
+    }
+
+
+    results.style.display =
+    "block";
+
+}
+
+</script>
+
+</body>
+</html>
